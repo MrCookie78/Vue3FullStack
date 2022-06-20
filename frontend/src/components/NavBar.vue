@@ -1,6 +1,13 @@
 <script setup>
 import { useUserStore } from "@/services/userStore";
-const { user } = useUserStore();
+import router from "@/router";
+
+const { user, logout } = useUserStore();
+
+function logoutUser() {
+  logout();
+  router.push({ name: "accueil" });
+}
 </script>
 
 <template>
@@ -55,6 +62,10 @@ const { user } = useUserStore();
         >
           Connexion
         </router-link>
+
+        <button v-if="user" class="btn btn-danger" @click="logoutUser()">
+          Deconnexion
+        </button>
       </div>
     </div>
   </nav>

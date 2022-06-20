@@ -7,9 +7,15 @@ function UserLogin(name, token) {
   localStorage.setItem("user", JSON.stringify(user.value));
 }
 
+function logout() {
+  user.value = null;
+  localStorage.removeItem("user");
+}
+
 export function useUserStore() {
   return {
     user,
     UserLogin,
+    logout,
   };
 }
