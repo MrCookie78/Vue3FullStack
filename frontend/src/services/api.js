@@ -72,6 +72,14 @@ async function updateChaine(chaine) {
     return err.response.data.error;
   }
 }
+async function deleteChaine(id) {
+  try {
+    const result = await axios.delete("http://localhost:5000/chaine/" + id);
+    return result.data;
+  } catch (err) {
+    return err.response.data.error;
+  }
+}
 
 export function useAPI() {
   return {
@@ -80,5 +88,6 @@ export function useAPI() {
     getChaines,
     addChaine,
     updateChaine,
+    deleteChaine,
   };
 }

@@ -4,12 +4,12 @@ import { useUserStore } from "@/services/userStore";
 import { useAPI } from "@/services/api";
 
 const { user } = useUserStore();
-const { getChaines, addChaine, updateChaine } = useAPI();
+const { getChaines, addChaine, updateChaine, deleteChaine } = useAPI();
 
 const chaines = ref([]);
 const ajoutChaine = ref("");
-
 const modifchaine = ref({});
+const supprChaine = ref({});
 
 const chainesFiltres = computed(() => {
   return chaines.value.filter((chaine) => chaine.user === user.id);
@@ -30,6 +30,15 @@ function modifierChaine(e) {
 
 async function Modifier() {
   await updateChaine(modifchaine.value);
+  getData();
+}
+
+function SupprimerChaine(e) {
+  supprChaine.value = JSON.parse(JSON.stringify(e));
+}
+
+async function Supprimer() {
+  await deleteChaine(supprChaine.value._id);
   getData();
 }
 
@@ -121,6 +130,45 @@ getData();
     </div>
   </div>
 
+  <div class="modal" tabindex="-1" id="modalSuppr">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modifier une chaine</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Confirmer la suppression de la chaine suivante :</p>
+          <ul>
+            <li>{{ supprChaine.chaine }}</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Fermer
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            @click="Supprimer()"
+            data-bs-dismiss="modal"
+          >
+            Valider
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row text-center">
     <h1>CRUD</h1>
   </div>
@@ -141,7 +189,8 @@ getData();
         <tr>
           <th>ID</th>
           <th>Chaine</th>
-          <th>Modifier</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -156,6 +205,16 @@ getData();
               @click="modifierChaine(c)"
             >
               Modifier
+            </button>
+          </td>
+          <td>
+            <button
+              class="btn btn-danger"
+              @click="SupprimerChaine(c)"
+              data-bs-toggle="modal"
+              data-bs-target="#modalSuppr"
+            >
+              Supprimer
             </button>
           </td>
         </tr>
