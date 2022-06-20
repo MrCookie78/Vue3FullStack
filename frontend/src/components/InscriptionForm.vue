@@ -1,11 +1,20 @@
 <script setup>
 import { ref } from "vue";
+import router from "@/router";
+import { useAPI } from "@/services/api";
+
+const { signup } = useAPI();
 
 const email = ref("");
 const username = ref("");
 const password = ref("");
 
 const res = ref(null);
+
+async function signupUser() {
+  res.value = await signup(email.value, username.value, password.value);
+  if (res.value.id) router.push({ name: "login" });
+}
 </script>
 
 <template>
@@ -48,7 +57,9 @@ const res = ref(null);
 
   <div class="row justify-content-center mt-1">
     <div class="col-md-4 text-end">
-      <button class="btn btn-success">Enregistrer</button>
+      <button class="btn btn-success" v-on:click="signupUser()">
+        Enregistrer
+      </button>
     </div>
   </div>
 </template>
