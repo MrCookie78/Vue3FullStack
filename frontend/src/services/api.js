@@ -14,7 +14,11 @@ async function login(email, password) {
       motdepasse: password,
     });
     if (result.headers["x-auth-token"]) {
-      UserLogin(result.data.username, result.headers["x-auth-token"]);
+      UserLogin(
+        result.data.id,
+        result.data.username,
+        result.headers["x-auth-token"]
+      );
       return true;
     } else return result.data;
   } catch (err) {
@@ -35,9 +39,19 @@ async function signup(email, username, password) {
   }
 }
 
+async function getChaines() {
+  try {
+    const result = await axios.get("http://localhost:5000/chaines");
+    return result.data;
+  } catch (err) {
+    return err;
+  }
+}
+
 export function useAPI() {
   return {
     login,
     signup,
+    getChaines,
   };
 }
