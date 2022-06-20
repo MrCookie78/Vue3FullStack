@@ -48,10 +48,37 @@ async function getChaines() {
   }
 }
 
+async function addChaine(chaine) {
+  try {
+    const result = await axios.post("http://localhost:5000/chaine", {
+      chaine: chaine,
+    });
+    return result.data;
+  } catch (err) {
+    return err.response.data.error;
+  }
+}
+
+async function updateChaine(chaine) {
+  try {
+    const result = await axios.put(
+      "http://localhost:5000/chaine/" + chaine._id,
+      {
+        chaine: chaine.chaine,
+      }
+    );
+    return result.data;
+  } catch (err) {
+    return err.response.data.error;
+  }
+}
+
 export function useAPI() {
   return {
     login,
     signup,
     getChaines,
+    addChaine,
+    updateChaine,
   };
 }

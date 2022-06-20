@@ -13,7 +13,7 @@ const chaineSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	crééePar: {
+	creePar: {
 		type: String,
 		required: true,
 	}
