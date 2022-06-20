@@ -40,6 +40,15 @@ function logoutUser() {
           </li>
           <li class="nav-item">
             <router-link
+              :to="{ name: 'hasard' }"
+              class="nav-link"
+              :class="{ active: $route.name == 'hasard' }"
+            >
+              Au hasard
+            </router-link>
+          </li>
+          <li v-if="user" class="nav-item">
+            <router-link
               :to="{ name: 'crud' }"
               class="nav-link"
               :class="{ active: $route.name == 'crud' }"

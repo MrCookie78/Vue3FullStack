@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import AccueilPage from "@/components/AccueilPage.vue";
 import AproposPage from "@/components/AproposPage.vue";
+import AuHasard from "@/components/AuHasard.vue";
 import CrudPage from "@/components/CrudPage.vue";
 import UserLogin from "@/components/UserLogin.vue";
 import InscriptionForm from "@/components/InscriptionForm.vue";
@@ -23,9 +24,17 @@ const router = createRouter({
       component: AproposPage,
     },
     {
+      path: "/hasard",
+      name: "hasard",
+      component: AuHasard,
+    },
+    {
       path: "/crud",
       name: "crud",
       component: CrudPage,
+      beforeEnter: function () {
+        if (!user.value) return { name: "accueil" };
+      },
     },
     {
       path: "/login",
