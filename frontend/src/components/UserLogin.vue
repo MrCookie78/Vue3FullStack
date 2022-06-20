@@ -1,9 +1,18 @@
 <script setup>
 import { ref } from "vue";
+import router from "@/router";
+import { useAPI } from "@/services/api";
+
+const { login } = useAPI();
 
 const email = ref("");
 const password = ref("");
 const res = ref(null);
+
+async function loginUser() {
+  res.value = await login(email.value, password.value);
+  if (res.value === true) router.push({ name: "accueil" });
+}
 </script>
 
 <template>
@@ -36,7 +45,7 @@ const res = ref(null);
     </div>
     <div class="row justify-content-center mt-1">
       <div class="col-md-4 text-end">
-        <button class="btn btn-success">Connexion</button>
+        <button class="btn btn-success" @click="loginUser()">Connexion</button>
       </div>
     </div>
   </div>

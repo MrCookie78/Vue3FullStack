@@ -6,6 +6,9 @@ import CrudPage from "@/components/CrudPage.vue";
 import UserLogin from "@/components/UserLogin.vue";
 import InscriptionForm from "@/components/InscriptionForm.vue";
 
+import { useUserStore } from "@/services/userStore";
+const { user } = useUserStore();
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -28,11 +31,17 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: UserLogin,
+      beforeEnter: function () {
+        if (user.value) return { name: "accueil" };
+      },
     },
     {
       path: "/signup",
       name: "signup",
       component: InscriptionForm,
+      beforeEnter: function () {
+        if (user.value) return { name: "accueil" };
+      },
     },
   ],
 });

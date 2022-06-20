@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+import { useUserStore } from "@/services/userStore";
+const { user } = useUserStore();
+</script>
 
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -38,10 +41,18 @@
             </router-link>
           </li>
         </ul>
-        <router-link :to="{ name: 'signup' }" class="btn btn-info me-1">
+        <router-link
+          v-if="!user"
+          :to="{ name: 'signup' }"
+          class="btn btn-info me-1"
+        >
           Inscription
         </router-link>
-        <router-link :to="{ name: 'login' }" class="btn btn-primary">
+        <router-link
+          v-if="!user"
+          :to="{ name: 'login' }"
+          class="btn btn-primary"
+        >
           Connexion
         </router-link>
       </div>
