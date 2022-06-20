@@ -2,8 +2,8 @@ import { ref } from "vue";
 
 const user = ref(null);
 
-function UserLogin(name, token) {
-  user.value = { name: name, token: token };
+function UserLogin(id, name, token) {
+  user.value = { id: id, name: name, token: token };
   localStorage.setItem("user", JSON.stringify(user.value));
 }
 

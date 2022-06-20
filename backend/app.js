@@ -72,7 +72,8 @@ const authGuard = (req, res, next) => {
 
 // Route retournant toutes les chaines
 app.get("/chaines", async (req, res) => {
-	res.status(200).json(await Chaine.find({}));
+  const chaines = await Chaine.find({});
+	res.status(200).json(chaines);
 })
 
 // Route retournant une chaine par ID
@@ -95,7 +96,7 @@ app.post("/chaine", [authGuard], async (req, res) => {
   if (error) res.status(400).json({ erreur: error.details[0].message });
   else {
     // Ajout valeur dans base de données
-		value.crééePar = req.user.id;
+		value.creePar = req.user.id;
     const chaine = await createChaine(value);
 
     // Renvoie objet créé
@@ -127,7 +128,7 @@ app.put("/chaine/:id", [verifyId], async (req, res) => {
 app.delete("/chaine/:id", [authGuard, verifyId], async (req, res) => {
   const id = req.params.id;
   const chaine = await Chaine.findById(id);
-	if(chaine.crééePar === req.user.id){
+	if(chaine.creePar === req.user.id){
 		await Chaine.findByIdAndDelete(id);
 		res.status(200).json(chaine);
 	}
@@ -184,7 +185,7 @@ app.post("/login", async (req, res) => {
 
   // On retourne un JWT
   const token = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
-  res.header("x-auth-token", token).status(200).json({ username: user.username });
+  res.header("x-auth-token", token).status(200).json({ id: user._id, username: user.username });
 });
 
 // Route compte utilisateur
